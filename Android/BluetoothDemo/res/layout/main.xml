@@ -2,11 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent" >
+              android:layout_height="fill_parent">
     <Button
             android:id="@+id/btn_checkavailable"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World, MainActivity" />
+            android:text="@string/btn_title_checkavailable"
+            android:onClick="onCheckAvailable"/>
+    <Button
+            android:id="@+id/btn_devicelist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_title_devicelist"
+            android:onClick="onDeviceList"/>
+    <ListView
+            android:id="@+id/lv_devicelist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+    </ListView>
 </LinearLayout>
 

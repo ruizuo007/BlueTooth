@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">BluetoothDemo</string>
     <string name="btn_title_checkavailable">检查蓝牙设备</string>
+    <string name="btn_title_devicelist">绑定设备列表</string>
 </resources>

@@ -8,8 +8,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface.OnCancelListener;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
@@ -21,9 +21,47 @@ public class BluetoothManager {
 
     private Context context;
 
-    private void BluetoothManger() { ; }
+    public BluetoothInterface bluetoothInterface;
 
     private static BluetoothManager instance = null;
+
+    /**
+     *
+     */
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String action = intent.getAction();
+
+            // When discovery finds a device
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+
+                if (BluetoothManager.this.bluetoothInterface != null) {
+
+                    BluetoothManager.this.bluetoothInterface.onSearchProgress();
+                }
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+
+                if (BluetoothManager.this.bluetoothInterface != null) {
+
+                    BluetoothManager.this.bluetoothInterface.onSearchFinished();
+                }
+
+                BluetoothManager.this.context.unregisterReceiver(this);
+            }
+        }
+    }
+
+    /**
+     * init method
+     */
+
+    private void BluetoothManger() { ; }
+
+    /**
+     * Singleton
+     */
 
     public static BluetoothManager sharedManager() {
 
@@ -35,7 +73,9 @@ public class BluetoothManager {
         return instance;
     }
 
-    //MARK:
+    /**
+     * @return
+     */
 
     public  boolean isBluetoothAvailabe() {
 
@@ -57,14 +97,30 @@ public class BluetoothManager {
         return true;
     }
 
-    //MARK:
+    /**
+     *
+     * @return
+     */
 
-    public Set<BluetoothDevice> bondedDevices() {
+    public Set<BluetoothDevice> getBondedDevices() {
 
         return adapter.getBondedDevices();
     }
 
-    //MARK:
+    /**
+     *
+     *
+     */
+
+    public void startSearch() {
+
+
+    }
+
+    /**
+     *
+     * @param ctx
+     */
 
     public void setContext(Context ctx) { this.context = ctx; }
 }

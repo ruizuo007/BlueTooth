@@ -1,20 +1,25 @@
 package com.graystone.Activity;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import android.widget.SimpleAdapter;
+import com.graystone.Adapter.DeviceListAdapter;
 import com.graystone.Bluetooth.BluetoothManager;
 
 import com.graystone.R;
 
+import java.util.ArrayList;
+
 public class MainActivity extends Activity {
 
-    ListView lv_devicelist;
+    private ListView lv_devicelist;
+
+    private DeviceListAdapter adapter;
 
     /**
      * Called when the activity is first created.
@@ -25,10 +30,10 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.main);
 
-        SimpleAdapter sp = new SimpleAdapter()
+        adapter = new DeviceListAdapter(this);
 
         lv_devicelist = (ListView)findViewById(R.id.lv_devicelist);
-        lv_devicelist.setAdapter(null);
+        lv_devicelist.setAdapter(adapter);
         lv_devicelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -46,6 +51,8 @@ public class MainActivity extends Activity {
 
     public void onDeviceList(View view) {
 
-
+        BluetoothManager manager = BluetoothManager.sharedManager();
+        adapter.setDevices(new ArrayList<BluetoothDevice>(manager.getBondedDevices()));
+        adapter.notifyDataSetChanged();
     }
 }
